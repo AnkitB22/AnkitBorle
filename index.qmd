@@ -1,5 +1,24 @@
 ---
 title: "Ankit Borle"
+image: myphoto.jpg
+resources: resume.pdf
+about: 
+  template: solana
+  image-shape: round
+  image-width: 15em
+  links: 
+    - text: Gmail
+      icon: envelope
+      href: mailto:ankitsborle@gmail.com
+    - text: GMU mail
+      icon: chat-text-fill
+      href: mailto:aborle@gmu.edu
+    - text: linkedIn
+      icon: linkedin
+      href: https://www.linkedin.com/in/ankit-borle-ba95911b3/
+    - text: Resume
+      icon: pass-fill
+      href: resume.pdf
 ---
 
 Hi, Welcome to my website.

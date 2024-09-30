@@ -1,5 +1,10 @@
 ---
 title: "About"
+image: emoji.jpg
+about: 
+  template: solana
+  image-shape: round
+  image-width: 5em
 ---
 
 # This page is under construction !!!

@@ -1,0 +1,11 @@
+---
+title: "Page 2"
+editor: visual
+image: emoji.jpg
+about: 
+  template: solana
+  image-shape: round
+  image-width: 5em
+---
+
+# Even this page is also under construction !!!

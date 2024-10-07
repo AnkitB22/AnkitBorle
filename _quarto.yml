@@ -10,6 +10,7 @@ website:
       - about.qmd
       - page_1.qmd
       - page_2.qmd
+      - Pages/MidProject.qmd
 
 format:
   html:

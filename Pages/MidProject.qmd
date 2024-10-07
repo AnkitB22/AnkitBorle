@@ -1,0 +1,50 @@
+---
+title: "Redesigning plot"
+format: html
+editor: visual
+---
+
+## Original Visual
+
+![](/Assets/original.webp){fig-align="center" width="600"}
+
+The visual above presents data on the number of perfect seasons required by teams across various leagues to achieve a .500 winning percentage. Currently, it's displayed as a simple bar plot, grouped by league.
+
+To make it easier to analyze each league individually, especially since the original plot includes numerous teams, we propose redesigning the visualization. By splitting the plot by league and transforming it into a series of line plots, we can gain clearer insights into each league's performance and trends.
+
+```{r, warning=FALSE,echo=FALSE, results=FALSE, include=FALSE}
+library(tidyverse)
+library(plotly)
+```
+
+```{r, fig.width=8, echo = FALSE, fig.height=11, warning=FALSE}
+
+dataset = read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
+
+p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
+  geom_point(aes(color = League), size = 2) +
+  geom_line(aes(color = League)) +
+  theme(axis.text.x = element_text(angle = 65, hjust = 1),
+        legend.position = "right")   + 
+  facet_wrap(~League, scales = "free_x", nrow = 3) +
+  labs(x = "Team",
+       y = "Perfect Seasons Needed")
+
+#ggplotly(p1)
+p1
+```
+
+As observed from the league-wise insights, we can analyze not only how teams perform but also identify which teams require the highest and lowest number of perfect seasons to reach a .500 winning percentage. This allows us to determine if teams within a league are generally consistent or if there's a clear outlier. For example, in the NFL, the Los Angeles Chargers are leading, needing less than a season to reach .500, while the Arizona Cardinals are struggling, requiring 12 seasons to hit the same mark.
+
+Next, we will create a plot that provides deeper insights into each league by displaying key metrics such as the highest and lowest number of seasons required to reach .500, as well as other important data points. This will be visualized using a box plot, offering a clear view of the overall performance distribution within each league. To enhance the analysis, we aim to make the box plot interactive, allowing for a more detailed exploration of the data.
+
+```{r, warning = FALSE, echo = FALSE}
+p2 = ggplot(dataset, aes(x = League, y = Perfect.Seasons.Needed, fill = League)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Perfect Seasons Needed by League",
+       x = "League", y = "Perfect Seasons Needed")
+
+ggplotly(p2)
+```
+
+From the box plot above, we can gather a wealth of information, including summary statistics grouped by league. This allows us to easily identify key metrics such as the minimum value, maximum value, first quartile (Q1), third quartile (Q3), and more. These insights help us better understand the distribution of team performances within each league.

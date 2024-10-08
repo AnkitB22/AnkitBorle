@@ -1,0 +1,95 @@
+---
+title: "Code"
+editor: visual
+---
+
+## First Visual
+
+```{r, warning=FALSE, results=FALSE, include = FALSE}
+library(tidyverse)
+library(plotly)
+```
+
+```{r, fig.width=8, fig.height=11, warning=FALSE}
+
+dataset <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
+
+p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
+  geom_point(aes(color = League), size = 2) +
+  geom_line(aes(color = League)) +
+  theme(axis.text.x = element_text(angle = 65, hjust = 1),
+        legend.position = "right")   + 
+  facet_wrap(~League, scales = "free_x", nrow = 3) +
+  labs(x = "Team",
+       y = "Perfect Seasons Needed")
+
+#ggplotly(p1)
+p1
+```
+
+```{r, warning = FALSE}
+p2 = ggplot(dataset, aes(x = League, y = Perfect.Seasons.Needed, fill = League)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Perfect Seasons Needed by League",
+       x = "League", y = "Perfect Seasons Needed")
+
+ggplotly(p2)
+```
+
+## Second Visual
+
+```{r, fig.width=5, fig.height=5, warning=FALSE}
+
+data <- read.csv('C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/stat_proj.csv')
+
+#Plotting Bar Graph
+bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_millions))+
+  geom_bar(stat = 'identity', aes(fill = continent))+
+  coord_flip() +
+  labs(title = "Share of countries by palm oil import", y = "Dollars (in Millions)", x = "Region", fill = "Continent") +
+  theme_minimal()
+  
+#Converting Bar Graph to Interactive Grapgh
+ggplotly(bar_graph)
+```
+
+```{r, fig.width=8, fig.height=6, warning=FALSE}
+
+#Plotting Weighted Scatter Graph
+scatter <- ggplot(data, aes(x = region, y = dollars_millions, size = dollars_millions, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_size_continuous(range = c(3, 15)) +
+  geom_text(aes(label = dollars_millions), 
+            vjust = 0.5,
+            hjust = 0.5,
+            color = "black",
+            size = 2) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 65, hjust = 1)) + 
+  labs(title = "Share of countries by palm oil export",
+       x = "Region",
+       y = "Dollars (in Millions)",
+       color = "Continent")+
+  guides(size = "none")
+
+scatter
+
+```
+
+```{r, fig.width=11, fig.height=8, warning=FALSE}
+
+world_tbl <- map_data("world") %>% as_tibble()
+
+left <- left_join(world_tbl, data, by="region")
+
+map1 <- ggplot(left, aes( x = long, y = lat, group=group)) +
+  geom_polygon(aes(fill = dollars_millions), color = "black")+
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 1500)+
+  labs(title = "Region wise share of palm oil export",
+       x = "Longitude",
+       y = "Latitude",
+       fill = "Million Dollars")
+
+ggplotly(map1)
+
+```

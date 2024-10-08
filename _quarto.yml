@@ -8,9 +8,8 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - page_1.qmd
-      - page_2.qmd
       - Pages/MidProject.qmd
+      - Pages/Code.qmd
 
 format:
   html:

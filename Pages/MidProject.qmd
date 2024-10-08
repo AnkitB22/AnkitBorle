@@ -10,7 +10,7 @@ editor: visual
 
 Source: [A review of the best and worst franchise records in professional sports](https://www.washingtonpost.com/sports/2022/12/07/american-pro-sports-franchise-win-loss-records/?pwapi_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWJpZCI6IjIwMDAxMTk4IiwicmVhc29uIjoiZ2lmdCIsIm5iZiI6MTY3MDYwNjQ4MywiaXNzIjoic3Vic2NyaXB0aW9ucyIsImV4cCI6MTY3MTgxNjA4MywiaWF0IjoxNjcwNjA2NDgzLCJqdGkiOiIyYzJjZTRhNy05NTA2LTQ2NjQtYmFkZi04NDZlZmQ0NDMwYzEiLCJ1cmwiOiJodHRwczovL3d3dy53YXNoaW5ndG9ucG9zdC5jb20vc3BvcnRzLzIwMjIvMTIvMDcvYW1lcmljYW4tcHJvLXNwb3J0cy1mcmFuY2hpc2Utd2luLWxvc3MtcmVjb3Jkcy8ifQ.rr_-wje2rILX6httC2U_25HPwH5pH09_X6xEzDN2WqA)
 
-The visual above presents data on the number of perfect seasons required by teams across various leagues to achieve a .500 winning percentage. Currently, it's displayed as a simple bar plot, grouped by league.
+The visual above presents data on the number of perfect seasons required by teams across various leagues to achieve a .500 winning percentage. Currently, it's displayed as a simple bar plot, grouped by league. \[1\]
 
 To make it easier to analyze each league individually, especially since the original plot includes numerous teams, we propose redesigning the visualization. By splitting the plot by league and transforming it into a series of line plots, we can gain clearer insights into each league's performance and trends.
 
@@ -18,6 +18,8 @@ To make it easier to analyze each league individually, especially since the orig
 library(tidyverse)
 library(plotly)
 ```
+
+### Redesigned Visual 1
 
 ```{r, fig.width=8, echo = FALSE, fig.height=11, warning=FALSE}
 
@@ -40,6 +42,8 @@ As observed from the league-wise insights, we can analyze not only how teams per
 
 Next, we will create a plot that provides deeper insights into each league by displaying key metrics such as the highest and lowest number of seasons required to reach .500, as well as other important data points. This will be visualized using a box plot, offering a clear view of the overall performance distribution within each league. To enhance the analysis, we aim to make the box plot interactive, allowing for a more detailed exploration of the data.
 
+### Redesigned Visual 2
+
 ```{r, warning = FALSE, echo = FALSE}
 p2 = ggplot(dataset, aes(x = League, y = Perfect.Seasons.Needed, fill = League)) +
   geom_boxplot() +
@@ -51,13 +55,19 @@ ggplotly(p2)
 
 From the box plot above, we can gather a wealth of information, including summary statistics grouped by league. This allows us to easily identify key metrics such as the minimum value, maximum value, first quartile (Q1), third quartile (Q3), and more. These insights help us better understand the distribution of team performances within each league.
 
+A shorter box indicates a more competitive league, where teams are performing at a similar level. In contrast, a longer box suggests one dominant team and weaker competition from others. In the first redesign, the plot for the NFL shows the Los Angeles Chargers dominating, as they need less than a season, while the Arizona Cardinals appear as the weakest team, requiring the most seasons. In contrast, the second redesign for the NFL shows a longer box, indicating a greater disparity between teams. Meanwhile, for the MLS, the box is shorter, reflecting stronger competition and more evenly matched teams. This trend is consistent in the first redesign for MLS, where the number of seasons required by each team is nearly the same.
+
+### Conclusion
+
+In conclusion, the original visual had a few challenges, making it difficult to identify league-wise performances due to the overcrowding of teams in a single plot, which made trend analysis harder. To address this, we created a line chart grouped by each league, allowing us to easily spot patterns, such as the strongest team and the overall level of competition within the league. We then further refined the design by creating a box plot for each league, providing statistical insights like the distribution of teams, the most common performance range, and the extreme outliers in each league.
+
 ## 2. Original Visual
 
 ![](/Assets/original2.jpeg){width="100%"}
 
 Source: <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>
 
-The visual above presents data on the global demand for palm oil exports. The graphic illustrates how much palm oil various countries import from Indonesia, as well as the scale of exports, with lines connecting Indonesia to different parts of the world, indicating export volume in monetary terms.
+The visual above presents data on the global demand for palm oil exports. The graphic illustrates how much palm oil various countries import from Indonesia, as well as the scale of exports, with lines connecting Indonesia to different parts of the world, indicating export volume in monetary terms. \[2\]
 
 To enhance clarity regarding the countries that import the largest quantities of palm oil from Indonesia, we have created a horizontal bar graph. This graph is organized in descending order, from the highest to the lowest share of imports. Additionally, the data is categorized by the continent to which each country belongs, allowing for an analysis of which continent is the primary importer of palm oil from Indonesia.
 
@@ -124,3 +134,13 @@ ggplotly(map1)
 ```
 
 The regions exhibiting the highest levels of imports are represented in darker hues, with China leading as the largest importer, indicated by the color red. Following China, India is depicted in orange, while the regions with the lowest imports are shown in lighter shades. Notably, Benin, South Korea, and South Africa are represented by nearly white colors.
+
+### Special Effort
+
+We manually created the dataset from the visuals, as it was not readily available in the original article. This extra effort ensured we had data for the analysis and visual redesign.
+
+## References
+
+1.   Philip Bump. (2022, December 7). American pro sports franchises, ranked by all-time winning percentage. *The Washington Post*. <https://www.washingtonpost.com/sports/2022/12/07/american-pro-sports-franchise-win-loss-records/>
+
+2.  McDonnell, T., & Sampson, J. (2021). Palm oil was supposed to help save the planet. Instead, it unleashed a catastrophe. *Bloomberg*. <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>

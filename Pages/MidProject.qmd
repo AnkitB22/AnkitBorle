@@ -19,7 +19,7 @@ library(plotly)
 
 ```{r, fig.width=8, echo = FALSE, fig.height=11, warning=FALSE}
 
-dataset = read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
+dataset <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/StatDataset.csv")
 
 p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
   geom_point(aes(color = League), size = 2) +
@@ -48,3 +48,77 @@ ggplotly(p2)
 ```
 
 From the box plot above, we can gather a wealth of information, including summary statistics grouped by league. This allows us to easily identify key metrics such as the minimum value, maximum value, first quartile (Q1), third quartile (Q3), and more. These insights help us better understand the distribution of team performances within each league.
+
+## 2. Original Visual
+
+![](/Assets/original2.jpeg){width="100%"}
+
+Source: <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>
+
+The visual above presents data on the global demand for palm oil exports. The graphic illustrates how much palm oil various countries import from Indonesia, as well as the scale of exports, with lines connecting Indonesia to different parts of the world, indicating export volume in monetary terms.
+
+To enhance clarity regarding the countries that import the largest quantities of palm oil from Indonesia, we have created a horizontal bar graph. This graph is organized in descending order, from the highest to the lowest share of imports. Additionally, the data is categorized by the continent to which each country belongs, allowing for an analysis of which continent is the primary importer of palm oil from Indonesia.
+
+```{r, fig.width=5, echo = FALSE, fig.height=5, warning=FALSE}
+
+data <- read.csv('/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/stat_proj.csv')
+
+#Plotting Bar Graph
+bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_millions))+
+  geom_bar(stat = 'identity', aes(fill = continent))+
+  coord_flip() +
+  labs(title = "Share of countries by palm oil import", y = "Dollars (in Millions)", x = "Region", fill = "Continent") +
+  theme_minimal()
+  
+#Converting Bar Graph to Interactive Grapgh
+ggplotly(bar_graph)
+```
+
+The aforementioned chart illustrates that China stands as the foremost importer of palm oil from Indonesia, commanding a market share valued at 2.6 billion dollars. This is succeeded by India, with imports amounting to 2.3 billion dollars, and Pakistan, which imports 1.2 billion dollars. In contrast, the countries with the lowest import figures include South Africa at 172 million dollars, South Korea at 169 million dollars, and Benin at 124 million dollars. Furthermore, it can be deduced that Asia is the predominant continent for palm oil imports, while North America ranks as the continent with the least imports.
+
+Same information can be deduced from the below given weighted scatter graph where the dots have size according to their share towards the import of palm oil.
+
+```{r, fig.width=8, echo = FALSE, fig.height=6, warning=FALSE}
+
+#Plotting Weighted Scatter Graph
+scatter <- ggplot(data, aes(x = region, y = dollars_millions, size = dollars_millions, color = continent)) +
+  geom_point(alpha = 0.8) +
+  scale_size_continuous(range = c(3, 15)) +
+  geom_text(aes(label = dollars_millions), 
+            vjust = 0.5,
+            hjust = 0.5,
+            color = "black",
+            size = 2) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 65, hjust = 1)) + 
+  labs(title = "Share of countries by palm oil export",
+       x = "Region",
+       y = "Dollars (in Millions)",
+       color = "Continent")+
+  guides(size = "none")
+
+scatter
+
+```
+
+The distribution of palm oil imports has been illustrated on a world map through an interactive format. Nations with the highest levels of imports are represented in darker shades, while those with lower import volumes are shown in lighter shades.
+
+```{r, fig.width=11, echo = FALSE, fig.height=8, warning=FALSE}
+
+world_tbl <- map_data("world") %>% as_tibble()
+
+left <- left_join(world_tbl, data, by="region")
+
+map1 <- ggplot(left, aes( x = long, y = lat, group=group)) +
+  geom_polygon(aes(fill = dollars_millions), color = "black")+
+  scale_fill_gradient2(low = "white", mid = "yellow", high = "red", midpoint = 1500)+
+  labs(title = "Region wise share of palm oil export",
+       x = "Longitude",
+       y = "Latitude",
+       fill = "Million Dollars")
+
+ggplotly(map1)
+
+```
+
+The regions exhibiting the highest levels of imports are represented in darker hues, with China leading as the largest importer, indicated by the color red. Following China, India is depicted in orange, while the regions with the lowest imports are shown in lighter shades. Notably, Benin, South Korea, and South Africa are represented by nearly white colors.

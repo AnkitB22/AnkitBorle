@@ -85,7 +85,7 @@ bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_m
   labs(title = "Share of countries by palm oil import", y = "Dollars (in Millions)", x = "Region", fill = "Continent") +
   theme_minimal()
   
-#Converting Bar Graph to Interactive Grapgh
+#Converting Bar Graph to Interactive Graph
 ggplotly(bar_graph)
 ```
 
@@ -149,6 +149,10 @@ The initial visual representation of palm oil imports from Indonesia to various 
 ### Special Effort
 
 We manually created the dataset from the visuals, as it was not readily available in the original article. This extra effort ensured we had data for the analysis and visual redesign.
+
+### Video Presentation
+
+{{< video https://youtu.be/ZqLZoV-9IKk width="800" height="500" >}}
 
 ## References
 

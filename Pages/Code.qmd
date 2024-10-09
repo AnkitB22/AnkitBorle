@@ -48,7 +48,7 @@ bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_m
   labs(title = "Share of countries by palm oil import", y = "Dollars (in Millions)", x = "Region", fill = "Continent") +
   theme_minimal()
   
-#Converting Bar Graph to Interactive Grapgh
+#Converting Bar Graph to Interactive Graph
 ggplotly(bar_graph)
 ```
 

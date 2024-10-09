@@ -2,6 +2,7 @@
 title: "Redesigning plot"
 format: html
 editor: visual
+output: html_document
 ---
 
 ## Original Visual
@@ -153,6 +154,12 @@ We manually created the dataset from the visuals, as it was not readily availabl
 ### Video Presentation
 
 {{< video https://youtu.be/ZqLZoV-9IKk width="800" height="500" >}}
+
+### Authors
+
+1.  [Aditya Khadse](https://adityakhadse.github.io/WebsiteQuarto/about.html)
+
+2.  [Ankit Borle](https://ankitb22.github.io/AnkitBorle/)
 
 ## References
 

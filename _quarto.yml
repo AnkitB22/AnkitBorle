@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: docs
+  
+output: html_document
+  
 website:
   title: "Ankit Borle"
   navbar:
@@ -13,6 +16,7 @@ website:
 
 format:
   html:
+    html_preserve: true
     theme: sandstone
     mainfont: times new roman
     fontsize: 1.5rem

@@ -23,7 +23,7 @@ library(plotly)
 
 ```{r, fig.width=8, echo = FALSE, fig.height=11, warning=FALSE}
 
-dataset <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
+dataset <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/StatDataset.csv")
 
 p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
   geom_point(aes(color = League), size = 2) +
@@ -71,11 +71,13 @@ Source: <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-
 
 The visual above presents data on the global demand for palm oil exports. The graphic illustrates how much palm oil various countries import from Indonesia, as well as the scale of exports, with lines connecting Indonesia to different parts of the world, indicating export volume in monetary terms. \[2\]
 
+### Redesigned Visual 1
+
 To enhance clarity regarding the countries that import the largest quantities of palm oil from Indonesia, we have created a horizontal bar graph. This graph is organized in descending order, from the highest to the lowest share of imports. Additionally, the data is categorized by the continent to which each country belongs, allowing for an analysis of which continent is the primary importer of palm oil from Indonesia.
 
 ```{r, fig.width=5, echo = FALSE, fig.height=5, warning=FALSE}
 
-data <- read.csv('C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/stat_proj.csv')
+data <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/stat_proj.csv")
 
 #Plotting Bar Graph
 bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_millions))+
@@ -89,6 +91,8 @@ ggplotly(bar_graph)
 ```
 
 The aforementioned chart illustrates that China stands as the foremost importer of palm oil from Indonesia, commanding a market share valued at 2.6 billion dollars. This is succeeded by India, with imports amounting to 2.3 billion dollars, and Pakistan, which imports 1.2 billion dollars. In contrast, the countries with the lowest import figures include South Africa at 172 million dollars, South Korea at 169 million dollars, and Benin at 124 million dollars. Furthermore, it can be deduced that Asia is the predominant continent for palm oil imports, while North America ranks as the continent with the least imports.
+
+### Redesigned Visual 2
 
 Same information can be deduced from the below given weighted scatter graph where the dots have size according to their share towards the import of palm oil.
 
@@ -115,6 +119,8 @@ scatter
 
 ```
 
+### Redesigned Visual 3
+
 The distribution of palm oil imports has been illustrated on a world map through an interactive format. Nations with the highest levels of imports are represented in darker shades, while those with lower import volumes are shown in lighter shades.
 
 ```{r, fig.width=11, echo = FALSE, fig.height=8, warning=FALSE}
@@ -137,12 +143,16 @@ ggplotly(map1)
 
 The regions exhibiting the highest levels of imports are represented in darker hues, with China leading as the largest importer, indicated by the color red. Following China, India is depicted in orange, while the regions with the lowest imports are shown in lighter shades. Notably, Benin, South Korea, and South Africa are represented by nearly white colors.
 
+### Conclusion
+
+The initial visual representation of palm oil imports from Indonesia to various countries was somewhat challenging to interpret due to its cluttered information, making it difficult to identify which nations were the largest importers. However, following its redesign, the information is now presented in a clear and comprehensible manner, allowing for easy identification of the leading importers of palm oil from Indonesia and their respective monetary contributions. Additionally, the redesigned visual facilitates the understanding of the top continents involved in these imports, as illustrated in the maps within redesign plot 3.
+
 ### Special Effort
 
 We manually created the dataset from the visuals, as it was not readily available in the original article. This extra effort ensured we had data for the analysis and visual redesign.
 
 ## References
 
-1.   Philip Bump. (2022, December 7). American pro sports franchises, ranked by all-time winning percentage. *The Washington Post*. <https://www.washingtonpost.com/sports/2022/12/07/american-pro-sports-franchise-win-loss-records/>
+1.  Philip Bump. (2022, December 7). American pro sports franchises, ranked by all-time winning percentage. *The Washington Post*. <https://www.washingtonpost.com/sports/2022/12/07/american-pro-sports-franchise-win-loss-records/>
 
-2.  McDonnell, T., & Sampson, J. (2021). Palm oil was supposed to help save the planet. Instead, it unleashed a catastrophe. *Bloomberg*. <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>
+2.  Pablo Robles, Anuradha Raghu, Adam Majendie and Jin Wu. (2021, November 5). The World's Addiction to Palm Oil is Only Getting Worse. *Bloomberg*. <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>

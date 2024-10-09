@@ -23,7 +23,7 @@ library(plotly)
 
 ```{r, fig.width=8, echo = FALSE, fig.height=11, warning=FALSE}
 
-dataset <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/StatDataset.csv")
+dataset <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
 
 p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
   geom_point(aes(color = League), size = 2) +
@@ -34,11 +34,10 @@ p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect
   labs(x = "Team",
        y = "Perfect Seasons Needed")
 
-#ggplotly(p1)
 p1
 ```
 
-As observed from the league-wise insights, we can analyze not only how teams perform but also identify which teams require the highest and lowest number of perfect seasons to reach a .500 winning percentage. This allows us to determine if teams within a league are generally consistent or if there's a clear outlier. For example, in the NFL, the Los Angeles Chargers are leading, needing less than a season to reach .500, while the Arizona Cardinals are struggling, requiring 12 seasons to hit the same mark.
+As observed from the league-wise insights, we can analyze not only how teams perform but also identify which teams require the highest and lowest number of perfect seasons to reach a .500 winning percentage. This allows us to determine if teams within a league are generally consistent or if there's a clear outlier. For example, in the NFL, the Los Angeles Chargers are leading, needing less than a season to reach .500, while the Arizona Cardinals are struggling, requiring 12 seasons to hit the same mark. \[3\]\[4\]
 
 Next, we will create a plot that provides deeper insights into each league by displaying key metrics such as the highest and lowest number of seasons required to reach .500, as well as other important data points. This will be visualized using a box plot, offering a clear view of the overall performance distribution within each league. To enhance the analysis, we aim to make the box plot interactive, allowing for a more detailed exploration of the data.
 
@@ -53,7 +52,7 @@ p2 = ggplot(dataset, aes(x = League, y = Perfect.Seasons.Needed, fill = League))
 ggplotly(p2)
 ```
 
-From the box plot above, we can gather a wealth of information, including summary statistics grouped by league. This allows us to easily identify key metrics such as the minimum value, maximum value, first quartile (Q1), third quartile (Q3), and more. These insights help us better understand the distribution of team performances within each league.
+From the box plot above, we can gather a wealth of information, including summary statistics grouped by league. This allows us to easily identify key metrics such as the minimum value, maximum value, first quartile (Q1), third quartile (Q3), and more. These insights help us better understand the distribution of team performances within each league. \[3\]\[4\]
 
 A shorter box indicates a more competitive league, where teams are performing at a similar level. In contrast, a longer box suggests one dominant team and weaker competition from others. In the first redesign, the plot for the NFL shows the Los Angeles Chargers dominating, as they need less than a season, while the Arizona Cardinals appear as the weakest team, requiring the most seasons. In contrast, the second redesign for the NFL shows a longer box, indicating a greater disparity between teams. Meanwhile, for the MLS, the box is shorter, reflecting stronger competition and more evenly matched teams. This trend is consistent in the first redesign for MLS, where the number of seasons required by each team is nearly the same.
 
@@ -77,7 +76,7 @@ To enhance clarity regarding the countries that import the largest quantities of
 
 ```{r, fig.width=5, echo = FALSE, fig.height=5, warning=FALSE}
 
-data <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/stat_proj.csv")
+data <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/stat_proj.csv")
 
 #Plotting Bar Graph
 bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_millions))+
@@ -156,3 +155,7 @@ We manually created the dataset from the visuals, as it was not readily availabl
 1.  Philip Bump. (2022, December 7). American pro sports franchises, ranked by all-time winning percentage. *The Washington Post*. <https://www.washingtonpost.com/sports/2022/12/07/american-pro-sports-franchise-win-loss-records/>
 
 2.  Pablo Robles, Anuradha Raghu, Adam Majendie and Jin Wu. (2021, November 5). The World's Addiction to Palm Oil is Only Getting Worse. *Bloomberg*. <https://www.bloomberg.com/graphics/2021-palm-oil-deforestation-climate-change/>
+
+3.  Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T., Miller, E., Bache, S., Müller, K., Ooms, J., Robinson, D., Seidel, D., Spinu, V., … Yutani, H. (2019). Welcome to the tidyverse. *Journal of Open Source Software*, *4*(43), 1686.
+
+4.  Sievert, C. (2020). *Interactive web-based data visualization with R, plotly, and shiny*. Chapman and Hall/CRC.

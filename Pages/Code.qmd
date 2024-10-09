@@ -12,7 +12,7 @@ library(plotly)
 
 ```{r, fig.width=8, fig.height=11, warning=FALSE}
 
-dataset <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/StatDataset.csv")
+dataset <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/StatDataset.csv")
 
 p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect.Seasons.Needed, group = League))+
   geom_point(aes(color = League), size = 2) +
@@ -23,7 +23,6 @@ p1 = ggplot(dataset, aes(x = reorder(Team, -Perfect.Seasons.Needed), y = Perfect
   labs(x = "Team",
        y = "Perfect Seasons Needed")
 
-#ggplotly(p1)
 p1
 ```
 
@@ -40,7 +39,7 @@ ggplotly(p2)
 
 ```{r, fig.width=5, fig.height=5, warning=FALSE}
 
-data <- read.csv("/Users/Manish/Documents/GitHub/Ankit Borle/Dataset/stat_proj.csv")
+data <- read.csv("C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset/stat_proj.csv")
 
 #Plotting Bar Graph
 bar_graph<-ggplot(data, aes(x = reorder(region, dollars_millions), y = dollars_millions))+

@@ -1,0 +1,138 @@
+body {
+  font-family: 'Charter', serif; 
+  font-size: 18px;
+  line-height: 1.5; 
+  color: #666666; 
+  background-color: #f0f8f1; 
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Charter', serif; 
+  font-weight: bold;
+  color: #2c3e50; 
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+h1 {
+  font-size: 32px;
+  border-bottom: 2px solid #ccc; 
+  padding-bottom: 5px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+h4 {
+  font-size: 20px;
+}
+
+h5, h6 {
+  font-size: 18px;
+}
+
+/* Code Blocks */
+pre, code {
+  font-family: 'Courier New', monospace; 
+  background-color: #f0f8f1; 
+  color: #003366; 
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+pre {
+  padding: 10px;
+  overflow-x: auto; 
+}
+
+/* Block Quotes */
+blockquote {
+  font-style: italic;
+  color: #7f8c8d; 
+  border-left: 4px solid #ccc;
+  padding-left: 10px;
+  margin-left: 0;
+  margin-right: 0;
+
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f8a4;
+  font-weight: bold;
+}
+
+/* Links */
+a {
+  color: #3498db; 
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Style for the <summary> button */
+details.code-fold > summary {
+    display: inline-block;
+    cursor: pointer;
+    padding: 4px 8px; /* Small padding for a compact button */
+    border: 1px solid #ccc; /* Border around the button */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #f0f0f0; /* Light gray background */
+    font-size: 0.5rem; /* Smaller font size */
+    font-weight: bold; /* Bold text */
+    color: #333; /* Text color */
+    float: right;
+    text-align: right; /* Align button text to the right */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth hover effect */
+}
+
+/* Hover effect for the button */
+details.code-fold > summary:hover {
+    background-color: #e6e6e6; /* Slightly darker gray */
+    color: #000; /* Darker text */
+    border-color: #888; /* Change border color on hover */
+}
+
+/* Remove the default triangle marker */
+details.code-fold > summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Custom text for collapsed and expanded states */
+details.code-fold > summary:after {
+    content: ' Show'; /* Default text for collapsed state */
+}
+
+details.code-fold[open] > summary:after {
+    content: ' Hide'; /* Text for expanded state */
+}
+
+/* Optional: Style for the code block inside */
+details.code-fold > .sourceCode {
+    margin-top: 5px;
+    border-left: 3px solid #ccc; /* Left border for emphasis */
+    padding-left: 10px;
+    background-color: #f9f9f9; /* Light background for the code block */
+    font-family: "Courier New", monospace; /* Monospace font for code */
+    font-size: 0.85rem; /* Slightly smaller font for code */
+}

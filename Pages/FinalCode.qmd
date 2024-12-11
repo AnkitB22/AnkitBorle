@@ -1,0 +1,392 @@
+---
+title: "Final Code"
+format: html
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE,message=FALSE)
+```
+#### Load Dataset and check for empty values
+
+```{r}
+# Load dataset
+data <- read.csv('C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Dataset.csv')
+sum(is.na(data))
+```   
+
+#### Check for duplicate rows
+
+```{r}
+# Check for duplicate rows
+duplicate_rows <- sum(duplicated(data))
+duplicate_rows
+```
+
+#### Total number of rows
+
+```{r}
+sum(complete.cases(data))
+```
+
+#### Columns in Dataset
+
+```{r}
+library(dplyr)
+# Rename the columns
+data <- data %>%
+  rename(
+    Patient_Number = No_Pation,
+    Creatinine = Cr,
+    HbA1c_Level = HbA1c,
+    Cholesterol = Chol,
+    Triglycerides = TG,
+    HDL_Cholesterol = HDL,
+    LDL_Cholesterol = LDL,
+    VLDL_Cholesterol = VLDL
+  )
+
+colnames(data)
+```
+
+#### Removing leading and trailing spaces
+
+Before removing the spaces
+
+```{r}
+
+table(data$CLASS)
+
+# Apply trimws to all columns in the dataset
+data <- data.frame(lapply(data, function(x) {
+  if (is.character(x)) {
+    trimws(x) # Trim whitespace for character columns
+  } else {
+    x # Leave other columns unchanged
+  }
+}), stringsAsFactors = FALSE)
+```
+
+After removing the spaces
+
+```{r}
+table(data$CLASS)
+
+```
+
+#### Calculate summary statistics (mean, median, standard deviation) for BMI and lipid profiles (LDL, HDL, TG), stratified by CLASS (diabetic vs. non-diabetic).
+
+```{r}
+library(knitr)
+library(kableExtra)
+
+# Assuming `data` is your dataframe loaded into R
+# Group by CLASS and calculate summary statistics
+summary_stats <- data %>%
+  group_by(CLASS) %>%
+  summarise(
+    BMI_mean = mean(BMI, na.rm = TRUE),
+    BMI_median = median(BMI, na.rm = TRUE),
+    BMI_sd = sd(BMI, na.rm = TRUE),
+    LDL_mean = mean(LDL_Cholesterol, na.rm = TRUE),
+    LDL_median = median(LDL_Cholesterol, na.rm = TRUE),
+    LDL_sd = sd(LDL_Cholesterol, na.rm = TRUE),
+    HDL_mean = mean(HDL_Cholesterol, na.rm = TRUE),
+    HDL_median = median(HDL_Cholesterol, na.rm = TRUE),
+    HDL_sd = sd(HDL_Cholesterol, na.rm = TRUE),
+    TG_mean = mean(Triglycerides, na.rm = TRUE),
+    TG_median = median(Triglycerides, na.rm = TRUE),
+    TG_sd = sd(Triglycerides, na.rm = TRUE)
+  )
+
+# View the results
+summary_stats %>%
+  kable(format = "html", digits = 2) %>%
+  kable_styling(font_size = 10)  # Adjust the font size as needed
+```
+
+#### Machine learning models for predicting the class of diabetes (N, P, Y) based on clinical and demographic factors?
+
+### Random Forest
+
+```{r, echo= FALSE}
+# Load necessary library
+library(dplyr)
+library(ggplot2)
+library(psych)
+library(caret)
+library(randomForest)
+library(class)
+library(rpart)
+library(rpart.plot)
+library(partykit)
+library(corrplot)
+library(gridExtra)
+library(rpart)
+library(rattle)
+```
+
+```{r}
+data$CLASS <- as.factor(data$CLASS)
+
+set.seed(42)  # For reproducibility
+# Split data -> 80% as training data and 20% as testing data
+train_index <- createDataPartition(data$CLASS, p = 0.8, list = FALSE)
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+
+# Fit a Random Forest model
+rf_model <- randomForest(CLASS ~ ., data = train_data, ntree = 100, importance = TRUE,random_state = 42)
+
+# Make predictions on the test set
+predictions <- predict(rf_model, test_data)
+
+# Evaluate the model
+conf_matrix <- confusionMatrix(predictions, test_data$CLASS)
+print(conf_matrix)
+```
+
+```{r}
+# Get variable importance from the fitted model
+var_importance <- randomForest::importance(rf_model)
+
+# Print variable importance
+print(var_importance)
+# Plot variable importance
+varImpPlot(rf_model, main = "Variable Importance")
+```
+-----------------------------------------------------------------------------------------------------------------
+
+### K-Nearest Neighbour
+
+```{r}
+data$CLASS <- as.factor(data$CLASS)  # Ensure CLASS is a factor
+
+# Scale numeric features
+numeric_columns <- c("AGE", "Urea", "Creatinine", "HbA1c_Level", "Cholesterol", "BMI")
+train_scaled <- scale(train_data[, numeric_columns])
+test_scaled <- scale(test_data[, numeric_columns])
+
+# Cross-validation to find the optimal k
+set.seed(42)
+error<-rep(NA,20) # Placeholder
+
+for (i in 1:20) {
+  # Perform KNN
+  knn_pred <- knn(train = train_scaled, test = test_scaled, cl = train_data$CLASS, k = i)
+  
+  # Calculate test error
+  error[i] <- mean(knn_pred != test_data$CLASS)
+}
+
+error_df <- data.frame(
+  K = 1:20,                   # Number of neighbors
+  Error = error               # Test error rates
+)
+
+# Add Accuracy (1 - Error) to the data frame
+error_df$Accuracy <- 1 - error_df$Error
+
+# Plot accuracy vs. K using ggplot2
+ggplot(error_df, aes(x = K, y = Accuracy)) +
+  geom_line(color = "blue") +
+  geom_point() +
+  ggtitle("Accuracy vs K for KNN") +
+  xlab("Number of Neighbors (K)") +
+  ylab("Accuracy") +
+  theme_minimal()
+
+ggplot(error_df, aes(x = K, y = Error)) +
+  geom_line(color = "blue") +
+  geom_point() +
+  ggtitle("Error vs K for KNN") +
+  xlab("Number of Neighbors (K)") +
+  ylab("Error") +
+  theme_minimal()
+
+# Find the minimum error and corresponding K value
+min_error <- min(error_df$Error)
+optimal_k <- error_df$K[which.min(error_df$Error)]
+
+# Print the results
+print(paste("Minimum Error:", round(min_error, 4)))
+print(paste("Optimal K:", optimal_k))
+
+```
+
+-----------------------------------------------------------------------------------------------------------------
+
+### Decision Tree
+
+```{r}
+###Decision Tree
+
+# Fit a Decision Tree model
+dt_model <- rpart(CLASS ~ ., data = train_data, method = "class")
+
+# Plot the Decision Tree
+fancyRpartPlot(dt_model)
+
+# Make predictions on the test data
+predictions <- predict(dt_model, test_data, type = "class")
+
+# Evaluate the model
+conf_matrix <- confusionMatrix(predictions, test_data$CLASS)
+print(conf_matrix)
+
+# Optional: Print overall accuracy
+accuracy <- conf_matrix$overall["Accuracy"]
+cat("Accuracy:", accuracy, "\n")
+
+```
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+#### Use of BMI thresholds to classify individuals into non-diabetic, pre-diabetic, and diabetic categories, and the role BMI plays in predicting diabetes progression across these classes
+
+```{r}
+# Density plot to compare BMI distribution
+ggplot(data, aes(x = BMI, fill = CLASS)) +
+  geom_density(alpha = 0.5) +
+  scale_x_continuous(breaks=seq(0,48,by=2))+
+  labs(title = "BMI Density Plot by CLASS", x = "BMI", y = "Density") +
+  theme_minimal()
+```
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+#### Gender-specific differences in clinical markers or diabetes class distributions?
+
+```{r}
+# Correlation Heatmaps by Gender with Values in Boxes
+# Subset data by gender
+data_male <- subset(data, Gender == "M")
+data_female <- subset(data, Gender == "F")
+  
+# Calculate correlation matrix
+correlation_matrix_male <- cor(data_male[, c("HbA1c_Level", "BMI", "HDL_Cholesterol", "LDL_Cholesterol", "Triglycerides", "AGE", "Urea", "Creatinine")], use = "complete.obs")
+
+correlation_matrix_female <- cor(data_female[, c("HbA1c_Level", "BMI", "HDL_Cholesterol", "LDL_Cholesterol", "Triglycerides", "AGE", "Urea", "Creatinine")], use = "complete.obs")
+  
+# Plot heatmap with values
+corrplot(correlation_matrix_male, method = "color", 
+           col = colorRampPalette(c("blue", "white", "red"))(200), 
+           addCoef.col = "black", # Add values to the boxes in black
+           tl.col = "black",      # Labels in black
+           tl.cex = 0.8,          # Adjust label size
+           number.cex = 0.7,      # Adjust coefficient size
+           title = paste("Correlation Heatmap for Gender: M"), mar = c(0, 0, 1, 0))
+
+corrplot(correlation_matrix_female, method = "color", 
+           col = colorRampPalette(c("blue", "white", "red"))(200), 
+           addCoef.col = "black", # Add values to the boxes in black
+           tl.col = "black",      # Labels in black
+           tl.cex = 0.8,          # Adjust label size
+           number.cex = 0.7,      # Adjust coefficient size
+           title = paste("Correlation Heatmap for Gender: F"), mar = c(0, 0, 1, 0))
+
+#linear model
+lm_female <- lm(Creatinine~Urea, data_female)
+lm_male <- lm(Creatinine~Urea, data_male)
+
+
+# Scatterplot for males
+plot_male <- ggplot(data_male, aes(x = Urea, y = Creatinine)) +
+  geom_point(color = "blue", alpha = 0.7) +
+  geom_abline(intercept = coef(lm_male)[1], slope = coef(lm_male)[2], color = "black") +
+  labs(title = "Scatterplot of Urea vs Creatine (Males)",
+       x = "Urea", y = "Creatine") +
+  theme_minimal()
+
+# Scatterplot for females
+plot_female <- ggplot(data_female, aes(x = Urea, y = Creatinine)) +
+  geom_point(color = "red", alpha = 0.7) +
+  geom_abline(intercept = coef(lm_female)[1], slope = coef(lm_female)[2], color = "black") +
+  labs(title = "Scatterplot of Urea vs Creatine (Females)",
+       x = "Urea", y = "Creatine") +
+  theme_minimal()
+
+# Arrange the plots side by side
+grid.arrange(plot_male, plot_female, ncol = 2)
+##########
+
+#optimize
+
+# Fit a polynomial regression model (degree 2)
+poly_model <- lm(Creatinine ~ poly(Urea, 2), data = data_female)
+
+# Make predictions
+data_female$Cr_pred <- predict(poly_model, newdata = data_female)
+
+# Evaluate the model: Mean Squared Error and R-squared
+mse_poly <- mean((data_female$Creatinine - data_female$Cr_pred)^2)
+r2_poly <- summary(poly_model)$r.squared
+
+# Visualization
+ggplot(data_female, aes(x = Urea, y = Creatinine)) +
+  geom_point(alpha = 0.7, color = "purple", label = "Data Points") +
+  stat_smooth(method = "lm", formula = y ~ poly(x, 2), color = "blue", se = FALSE, label = "Polynomial Regression Curve") +
+  labs(title = "Optimized Polynomial Regression: Urea vs. Creatinine (Gender: F)",
+       x = "Urea", y = "Creatinine") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  geom_line(aes(y = Cr_pred), color = "blue")
+
+# Print evaluation metrics
+cat("Evaluation metrics\n",
+    "Mean Squared Error (MSE):", mse_poly, "\n",
+    "R-squared (R²):",r2_poly,"\n")
+
+# Fitting the polynomial model
+poly_model <- lm(Creatinine ~ poly(Urea, 2), data = data_female)
+
+# Predictions
+predictions <- predict(poly_model, newdata = data_female)
+
+# Residuals
+residuals <- data_female$Creatinine - predictions
+
+# Metrics
+mae <- mean(abs(residuals))
+mape <- mean(abs(residuals / data_female$Creatinine)) * 100
+accuracy <- 100 - mape
+r_squared <- summary(poly_model)$r.squared
+
+# Output the results
+cat("Results for Females\n",
+    "---------------------\n",
+    "Mean Absolute Error (MAE):", mae, "\n",
+    "Mean Absolute Percentage Error (MAPE):", mape, "%\n",
+    "Model Accuracy:", accuracy, "%\n",
+    "R-squared (R²):", r_squared, "\n")
+
+# Fitting the polynomial model for males
+poly_model_male <- lm(Creatinine ~ poly(Urea, 2), data = data_male)
+
+# Predictions for males
+predictions_male <- predict(poly_model_male, newdata = data_male)
+
+# Residuals for males
+residuals_male <- data_male$Creatinine - predictions_male
+
+# Metrics for males
+mae_male <- mean(abs(residuals_male))  # Mean Absolute Error
+mape_male <- mean(abs(residuals_male / data_male$Creatinine)) * 100  # Mean Absolute Percentage Error
+accuracy_male <- 100 - mape_male  # Accuracy
+r_squared_male <- summary(poly_model_male)$r.squared  # R-squared
+
+# Output the results for males
+cat("Results for Males\n",
+    "---------------------\n",
+    "Mean Absolute Error (MAE) for Males:", mae_male, "\n",
+    "Mean Absolute Percentage Error (MAPE) for Males:", mape_male, "%\n",
+    "Model Accuracy for Males:", accuracy_male, "%\n",
+    "R-squared (R²) for Males:", r_squared_male, "\n")
+
+
+
+
+```
+

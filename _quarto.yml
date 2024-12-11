@@ -2,8 +2,6 @@ project:
   type: website
   output-dir: docs
   
-output: html_document
-  
 website:
   title: "Ankit Borle"
   navbar:
@@ -13,17 +11,18 @@ website:
       - about.qmd
       - Pages/MidProject.qmd
       - Pages/Code.qmd
+      - Pages/FinalProject.qmd
+      - Pages/FinalCode.qmd
 
 format:
   html:
     html_preserve: true
-    theme: sandstone
     mainfont: times new roman
     fontsize: 1.5rem
     fontcolor: "#043850"
     linkcolor: "#2a8d25"
     monofont: courier view
-    css: styles.css
+    css: FinalProj.css
     
 
 

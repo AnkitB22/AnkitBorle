@@ -46,6 +46,18 @@ pre, code {
   line-height: 1.5;
 }
 
+/* Increase font size for code results */
+.cell-output.cell-output-stdout pre code {
+    font-size: 50px; /* Adjust font size as needed */
+    font-family: "Courier New", monospace; /* Set a clean monospace font */
+    line-height: 1.5; /* Increase line spacing for better readability */
+    color: #333; /* Optional: Set text color */
+    background-color: #f9f9f9; /* Optional: Light background for better contrast */
+    padding: 10px; /* Optional: Add padding around the content */
+    border-radius: 5px; /* Optional: Round the edges */
+    border: 1px solid #ddd; /* Optional: Add a subtle border */
+}
+
 pre {
   padding: 10px;
   overflow-x: auto; 

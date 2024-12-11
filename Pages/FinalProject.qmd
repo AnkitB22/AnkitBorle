@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE,message=FALSE)
 
 ## DIABETES: OVERVIEW, CAUSES, AND IMPACT
 
-<img src="C:/Users/adikh/OneDrive/Desktop/Stat/AnkitBorle/Assets/Diabetes.jpg" alt="Diabetes Chart" width="600px"/>
+<img src="/Assets/Diabetes.jpg" alt="Diabetes Chart" width="600px"/>
 
 by Group 2,
 
@@ -456,6 +456,8 @@ corrplot(correlation_matrix_female, method = "color",
 
 The heatmaps for males and females indicate HbA1c, BMI, AGE, Urea, and Creatinine as the important variables in assessing the risk of diabetes. In females, HbA1c is moderately correlated with BMI (0.43) and AGE (0.46), while AGE is moderately correlated with BMI (0.44). Urea and Creatinine are strongly positively correlated with a value of 0.83, showing that they are closely linked as renal markers. In males, the HbA1c is moderately correlated with BMI (0.40) and AGE (0.31), while Urea and Creatinine are also strongly correlated (0.56), though less strong than in females. Other features like HDL, LDL, and TG show a weak correlation in both genders, indicating their minor role in predicting diabetes risk.
 
+#### Exploring the relationship between Urea and Creatinine grouped by gender as it has high correlation coefficient
+
 ```{r}
 #linear model
 lm_female <- lm(Creatinine~Urea, data_female)
@@ -635,3 +637,31 @@ The present study illustrates how strong data analytics can support diabetes out
 [1] A. Kumar, "Diabetes Dataset," Mendeley Data, V1, Oct. 2018. [Online]. Available: https://data.mendeley.com/datasets/wj9rwkp9c2/1. [Accessed: Dec. 10, 2024].
 
 [2] National Institute of Diabetes and Digestive and Kidney Diseases, "Diabetes Overview," NIDDK, 2021. [Online]. Available: https://www.niddk.nih.gov/health-information/diabetes. [Accessed: Dec. 10, 2024].
+
+[3] H. Wickham, R. François, L. Henry, and K. Müller, dplyr: A Grammar of Data Manipulation, R package version 1.0.10, 2022. [Online]. Available: https://CRAN.R-project.org/package=dplyr. [Accessed: Dec. 10, 2024].
+
+[4] H. Wickham, ggplot2: Elegant Graphics for Data Analysis, 2nd ed., Springer-Verlag New York, 2016. [Online]. Available: https://ggplot2.tidyverse.org. [Accessed: Dec. 10, 2024].
+
+[5] W. Revelle, psych: Procedures for Psychological, Psychometric, and Personality Research, Northwestern University, Evanston, Illinois, R package version 2.3.3, 2023. [Online]. Available: https://CRAN.R-project.org/package=psych. [Accessed: Dec. 10, 2024].
+
+[6] M. Kuhn, caret: Classification and Regression Training, R package version 6.0-94, 2022. [Online]. Available: https://CRAN.R-project.org/package=caret. [Accessed: Dec. 10, 2024].
+
+[7] A. Liaw and M. Wiener, randomForest: Breiman and Cutler's Random Forests for Classification and Regression, R package version 4.7-1.1, 2022. [Online]. Available: https://CRAN.R-project.org/package=randomForest. [Accessed: Dec. 10, 2024].
+
+[8] B. D. Ripley and W. N. Venables, class: Functions for Classification, R package version 7.3-20, 2022. [Online]. Available: https://CRAN.R-project.org/package=class. [Accessed: Dec. 10, 2024].
+
+[9] T. Therneau and B. Atkinson, rpart: Recursive Partitioning and Regression Trees, R package version 4.1.16, 2022. [Online]. Available: https://CRAN.R-project.org/package=rpart. [Accessed: Dec. 10, 2024].
+
+[10] S. Milborrow, rpart.plot: Plot 'rpart' Models, R package version 3.1.1, 2022. [Online]. Available: https://CRAN.R-project.org/package=rpart.plot. [Accessed: Dec. 10, 2024].
+
+[11] A. Zeileis, T. Hothorn, and K. Hornik, partykit: A Toolkit for Recursive Partytioning, R package version 1.2-16, 2022. [Online]. Available: https://CRAN.R-project.org/package=partykit. [Accessed: Dec. 10, 2024].
+
+[12] T. Wei and V. Simko, corrplot: Visualization of a Correlation Matrix, R package version 0.92, 2021. [Online]. Available: https://CRAN.R-project.org/package=corrplot. [Accessed: Dec. 10, 2024].
+
+[13] B. Auguie, gridExtra: Miscellaneous Functions for Grid Graphics, R package version 2.3, 2017. [Online]. Available: https://CRAN.R-project.org/package=gridExtra. [Accessed: Dec. 10, 2024].
+
+[14] G. J. Williams, rattle: Graphical User Interface for Data Mining in R, Springer-Verlag New York, 2011. [Online]. Available: https://CRAN.R-project.org/package=rattle. [Accessed: Dec. 10, 2024].
+
+[15] Y. Xie, knitr: A General-Purpose Package for Dynamic Report Generation in R, 2nd ed., Chapman and Hall/CRC, 2015. R package version 1.42, 2023. [Online]. Available: https://CRAN.R-project.org/package=knitr. [Accessed: Dec. 10, 2024].
+
+[16] H. Zhu, kableExtra: Construct Complex Table with 'kable' and Pipe Syntax, R package version 1.3.4, 2021. [Online]. Available: https://CRAN.R-project.org/package=kableExtra. [Accessed: Dec. 10, 2024].
